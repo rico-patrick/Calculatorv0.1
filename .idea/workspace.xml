@@ -91,28 +91,29 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="466" y="155" width="424" height="491" key="FileChooserDialogImpl" timestamp="1593654676801">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="466" y="155" width="424" height="491" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1593654676801" />
-    <state width="1343" height="172" key="GridCell.Tab.0.bottom" timestamp="1593658751049">
+    <state width="1343" height="172" key="GridCell.Tab.0.bottom" timestamp="1593683335903">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="172" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1593658751049" />
-    <state width="1343" height="172" key="GridCell.Tab.0.center" timestamp="1593658751048">
+    <state width="1343" height="172" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1593683335903" />
+    <state width="1343" height="172" key="GridCell.Tab.0.center" timestamp="1593683335903">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="172" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1593658751048" />
-    <state width="1343" height="172" key="GridCell.Tab.0.left" timestamp="1593658751048">
+    <state width="1343" height="172" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1593683335903" />
+    <state width="1343" height="172" key="GridCell.Tab.0.left" timestamp="1593683335902">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="172" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1593658751048" />
-    <state width="1343" height="172" key="GridCell.Tab.0.right" timestamp="1593658751049">
+    <state width="1343" height="172" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1593683335902" />
+    <state width="1343" height="172" key="GridCell.Tab.0.right" timestamp="1593683335903">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1343" height="172" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1593658751049" />
+    <state width="1343" height="172" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1593683335903" />
     <state width="1343" height="215" key="GridCell.Tab.1.bottom" timestamp="1593658526270">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
@@ -129,10 +130,10 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state width="1343" height="215" key="GridCell.Tab.1.right/0.27.1366.741@0.27.1366.741" timestamp="1593658526269" />
-    <state x="383" y="145" width="458" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593657098181">
+    <state x="507" y="307" width="458" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593682623939">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="383" y="145" width="458" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1366.741@0.27.1366.741" timestamp="1593657098181" />
+    <state x="507" y="307" width="458" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1366.741@0.27.1366.741" timestamp="1593682623939" />
     <state x="346" y="89" width="672" height="160" key="search.everywhere.popup" timestamp="1593657115354">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
