@@ -30,6 +30,13 @@ def clear():
         value.set(svalue)
 
 
+def delt(value):
+        global svalue
+        temp = svalue
+        temp = temp[0:-1]
+        svalue = temp
+        value.set(svalue)
+
 class Frame:
         # DisplayBar
         display = Entry(window, bd=3, width=400, font="Helvetica 30", fg="BLACK", bg="WHITE", textvariable=value)
@@ -40,10 +47,9 @@ class Frame:
         btndiv = Button(window, text="/", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("/", value))
         btnmul = Button(window, text="X", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("*", value))
         btnsub = Button(window, text="-", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("-", value))
-        btnper = Button(window, text="%", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("%", value))
         # Clear
         btnclr = Button(window, text="AC", font="Verdana 10 bold", fg="WHITE", bg="RED", command=lambda: clear())
-
+        btndlt = Button(window, text="<", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: delt(value))
         # Result
         btneql = Button(window, text="=", font="Verdana 10 bold", bg="BLUE", fg="WHITE", command=lambda: operate(value))
         # Float
@@ -77,7 +83,7 @@ class Frame:
         btndot.pack()
         btndiv.pack()
         btneql.pack()
-        btnper.pack()
+        btndlt.pack()
         btnbo.pack()
         btnbc.pack()
         btnclr.pack()
@@ -86,7 +92,7 @@ class Frame:
         btnmul.pack()
         btnbo.place(bordermode=OUTSIDE, height=40, width=85, x=10, y=60)
         btnbc.place(bordermode=OUTSIDE, height=40, width=85, x=105, y=60)
-        btnper.place(bordermode=OUTSIDE, height=40, width=85, x=200, y=60)
+        btndlt.place(bordermode=OUTSIDE, height=40, width=85, x=200, y=60)
         btnclr.place(bordermode=OUTSIDE, height=40, width=85, x=295, y=60)
 
         btn7.place(bordermode=OUTSIDE, height=40, width=85, x=10, y=110)
