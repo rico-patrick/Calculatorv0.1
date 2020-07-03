@@ -4,7 +4,7 @@ window = Tk()
 window.geometry("400x400")
 window.title("Calculator")
 window.configure(bg="WHITE")
-
+window.resizable(False, False)
 value = StringVar()  # value that appears on the screen/display
 svalue=""            # initial and final value that is executed
 def input(num,value):
@@ -18,7 +18,10 @@ def operate(value):
                 value.set(result)
         except ZeroDivisionError:
                 svalue=""
-                value.set("Math Error")
+                value.set("Zero Error")
+        except (SyntaxError, AttributeError, TypeError, IndexError):
+                svalue = ""
+                value.set("Invalid Entry")
 
 # clear function
 def clear():
@@ -29,25 +32,25 @@ def clear():
 
 class Frame:
         # DisplayBar
-        display = Entry(window, bd=3, font="Helvetica 25", fg="BLACK", bg="WHITE", textvariable=value)
+        display = Entry(window, bd=3, width=400, font="Helvetica 30", fg="BLACK", bg="WHITE", textvariable=value)
         display.pack()
         """===============================Buttons================================="""
         # Operations
-        btnadd = Button(window, text="+", bg="GREY")
-        btndiv = Button(window, text="/", bg="GREY")
-        btnmul = Button(window, text="X", bg="GREY")
-        btnsub = Button(window, text="-", bg="GREY")
-        btnper = Button(window, text="%", bg="GREY")
+        btnadd = Button(window, text="+", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("+", value))
+        btndiv = Button(window, text="/", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("/", value))
+        btnmul = Button(window, text="X", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("*", value))
+        btnsub = Button(window, text="-", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("-", value))
+        btnper = Button(window, text="%", font="Verdana 10 bold", bg="GREY", fg="WHITE", command=lambda: input("%", value))
         # Clear
-        btnclr = Button(window, text="AC", fg="WHITE", bg="RED", command=lambda: clear())
+        btnclr = Button(window, text="AC", font="Verdana 10 bold", fg="WHITE", bg="RED", command=lambda: clear())
 
         # Result
-        btneql = Button(window, text="=", bg="BLUE", fg="WHITE")
+        btneql = Button(window, text="=", font="Verdana 10 bold", bg="BLUE", fg="WHITE", command=lambda: operate(value))
         # Float
-        btndot = Button(window, text=".", bg="GREY", command=lambda: input(".", value))
+        btndot = Button(window, text=".", font="Verdana 10 bold", fg="WHITE", bg="GREY", command=lambda: input(".", value))
         #Brackets
-        btnbo = Button(window, text="(", bg="GREY")
-        btnbc = Button(window, text=")", bg="GREY")
+        btnbo = Button(window, text="(", font="Verdana 10 bold", fg="WHITE", bg="GREY", command=lambda: input("(", value))
+        btnbc = Button(window, text=")", font="Verdana 10 bold", fg="WHITE", bg="GREY", command=lambda: input(")", value))
         # Numbers
         btn7 = Button(window, text="7", bg="LIGHT GREY", command=lambda: input(7, value))
         btn8 = Button(window, text="8", bg="LIGHT GREY", command=lambda: input(8, value))
