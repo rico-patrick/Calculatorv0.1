@@ -1,15 +1,21 @@
 from tkinter import *
 from PIL import ImageTk, Image
-from tkinter import messagebox
+from tkinter import messagebox, Frame
+
 window = Tk()
-window.geometry("400x400")
+window.geometry("460x415")
 window.title("Calculator")
 window.configure(bg="WHITE")
-photo = PhotoImage(file="icon.xbm")
-window.iconphoto(False, photo)
+# photo = PhotoImage(file="icon.xbm")
+# window.iconphoto(False, photo)
+# window.iconbitmap("icon.ico")
 
-value = StringVar()  # value that appears on the screen/display
-svalue = ""  # initial and final value that is executed
+# value that appears on the screen/display
+
+value = StringVar()
+# initial and final value that is executed
+
+svalue = ""
 
 
 # getting and setting values
@@ -69,26 +75,27 @@ def on_Closing():
 
 window.protocol("WM_DELETE_WINDOW", on_Closing)
 
-# Header History
-label = Label(window,
-              text="History",
-              width=45,
-              font="Arial")
-label.place(x=0, y=305)
-
-# History List
-history = Listbox(window,
-                  height=3,
-                  font="Helvetica",
-                  width=44,
-                  fg="BLACK",
-                  bg="WHITE")
-
-history.place(x=0, y=333)
+frame = LabelFrame(window, text="History", font="Arial 12 bold", bg="WHITE")
 
 # ScrollBar
-scroll = Scrollbar(window)
-scroll.pack(side=RIGHT)
+scroll = Scrollbar(frame, orient=VERTICAL)
+
+# History List
+history = Listbox(frame,
+                  height=5,
+                  font="Helvetica 11",
+                  width=55,
+                  fg="BLACK",
+                  bg="WHITE",
+                  yscrollcommand=scroll.set)
+
+scroll.config(command=history.yview)
+
+scroll.pack(side=RIGHT, fill=Y)
+
+history.pack()
+
+frame.place(x=0, y=305)
 
 
 class Frame:
