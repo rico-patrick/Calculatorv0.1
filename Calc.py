@@ -6,9 +6,8 @@ window = Tk()
 window.geometry("460x415")
 window.title("Calculator")
 window.configure(bg="WHITE")
-photo = PhotoImage(file="icon.xbm")
+photo = PhotoImage(file="Images/icon.png")
 window.iconphoto(False, photo)
-#window.iconbitmap("icon.ico")
 
 # value that appears on the screen/display
 
