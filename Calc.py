@@ -6,9 +6,9 @@ window = Tk()
 window.geometry("460x415")
 window.title("Calculator")
 window.configure(bg="WHITE")
-# photo = PhotoImage(file="icon.xbm")
-# window.iconphoto(False, photo)
-# window.iconbitmap("icon.ico")
+photo = PhotoImage(file="icon.xbm")
+window.iconphoto(False, photo)
+#window.iconbitmap("icon.ico")
 
 # value that appears on the screen/display
 
@@ -78,20 +78,24 @@ window.protocol("WM_DELETE_WINDOW", on_Closing)
 frame = LabelFrame(window, text="History", font="Arial 12 bold", bg="WHITE")
 
 # ScrollBar
-scroll = Scrollbar(frame, orient=VERTICAL)
+scrollx = Scrollbar(frame, orient=HORIZONTAL)
+scrolly = Scrollbar(frame, orient=VERTICAL)
 
 # History List
 history = Listbox(frame,
-                  height=5,
+                  height=4,
                   font="Helvetica 11",
                   width=55,
                   fg="BLACK",
                   bg="WHITE",
-                  yscrollcommand=scroll.set)
+                  xscrollcommand=scrollx.set,
+                  yscrollcommand=scrolly.set)
 
-scroll.config(command=history.yview)
+scrollx.config(command=history.xview)
+scrolly.config(command=history.yview)
 
-scroll.pack(side=RIGHT, fill=Y)
+scrollx.pack(side=BOTTOM, fill=X)
+scrolly.pack(side=RIGHT, fill=Y)
 
 history.pack()
 
