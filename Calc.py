@@ -1,16 +1,16 @@
 from tkinter import *
-from PIL import ImageTk, Image
+import os
 from tkinter import messagebox, Frame
+from tkinter.filedialog import asksaveasfilename, asksaveasfile
+from tkinter.font import Font
 
 window = Tk()
-window.geometry("460x415")
+window.geometry("390x415+700+100")
 window.title("Calculator")
-window.configure(bg="WHITE")
 photo = PhotoImage(file="Images/icon.png")
 window.iconphoto(False, photo)
 
 # value that appears on the screen/display
-
 value = StringVar()
 # initial and final value that is executed
 
@@ -20,7 +20,8 @@ svalue = ""
 # getting and setting values
 def input(num, value):
     global svalue
-    svalue = svalue + str(num)
+    svalue = ""
+    svalue = obj.display.get() + str(num)
     value.set(svalue)
 
 
@@ -28,9 +29,10 @@ def input(num, value):
 def operate(value):
     global svalue
     try:
-        result = str(eval(svalue))
+
+        result = str(eval(obj.display.get()))
+        history.insert(END, obj.display.get() + "  =  " + result)
         value.set(result)
-        history.insert(END, svalue + " = " + result)
         svalue = ""
     except ZeroDivisionError:
         svalue = ""
@@ -42,6 +44,7 @@ def operate(value):
     # clear function
 
 
+# Clear function
 def clear():
     global svalue
     svalue = ""
@@ -57,7 +60,7 @@ def delt(value):
     value.set(svalue)
 
 
-# Key Functions
+# Key Event Functions
 def enterkey(event):
     operate(value)
 
@@ -74,7 +77,40 @@ def on_Closing():
 
 window.protocol("WM_DELETE_WINDOW", on_Closing)
 
-frame = LabelFrame(window, text="History", font="Arial 12 bold", bg="WHITE")
+
+# Restarts the current program
+def restart_program():
+    python = sys.executable
+    os.execl(python, python, *sys.argv)
+
+
+# File menu functions
+
+# Opening readme file from
+def about():
+    if sys.platform == 'linux':
+        os.system('xdg-open "readme.txt"')  # works for urls too
+    else:
+        os.system('start "readme.txt"')
+
+
+# Save
+def save():
+    files = [('All Files', '*.*'),
+             ('Text Document', '*.txt')]
+
+    file = asksaveasfile(mode='w', filetypes=files, initialfile=".txt", defaultextension=files)
+
+    if file is None:
+        return
+
+    for x in range(history.size()):
+        file_to_save = str(history.get(x) + "\n")
+        file.write(file_to_save)
+    file.close()
+
+
+frame = LabelFrame(window, text="Recent", font="Arial 12 bold", bg="WHITE")
 
 # ScrollBar
 scrollx = Scrollbar(frame, orient=HORIZONTAL)
@@ -84,7 +120,7 @@ scrolly = Scrollbar(frame, orient=VERTICAL)
 history = Listbox(frame,
                   height=4,
                   font="Helvetica 11",
-                  width=55,
+                  width=46,
                   fg="BLACK",
                   bg="WHITE",
                   xscrollcommand=scrollx.set,
@@ -99,13 +135,38 @@ scrolly.pack(side=RIGHT, fill=Y)
 history.pack()
 
 frame.place(x=0, y=305)
+menubar = Menu(window)
+file = Menu(menubar, tearoff=0)
+file.add_command(label="New", command=restart_program)
+file.add_command(label="Save", command=lambda: save())
+
+file.add_separator()
+
+file.add_command(label="Exit", command=on_Closing)
+
+menubar.add_cascade(label="File", menu=file)
+
+edit = Menu(menubar, tearoff=0)
+
+edit.add_command(label="Cut", accelerator="Ctrl+X", command=lambda: window.focus_get().event_generate('<<Cut>>'))
+edit.add_command(label="Copy", accelerator="Ctrl+C", command=lambda: window.focus_get().event_generate('<<Copy>>'))
+edit.add_command(label="Paste", accelerator="Ctrl+V", command=lambda: window.focus_get().event_generate('<<Paste>>'))
+edit.add_command(label="Delete List", command=lambda: history.delete(ANCHOR))
+menubar.add_cascade(label="Edit", menu=edit)
+
+help = Menu(menubar, tearoff=0)
+help.add_command(label="About", command=lambda: about())
+menubar.add_cascade(label="Help", menu=help)
+
+window.configure(menu=menubar, bg="WHITE")
 
 
 class Frame:
     # DisplayBar
-    display = Entry(window, bd=3, width=400, font="Helvetica 30", fg="BLACK", bg="WHITE", textvariable=value)
+    display = Entry(window, bd=3, width=400, font=" Arial 30", justify=RIGHT, fg="BLACK", bg="WHITE",
+                    textvariable=value)
     display.pack()
-    """===============================================Buttons================================================"""
+# =================================================Buttons=========================================================
 
     # Operations
     btnadd = Button(window,
