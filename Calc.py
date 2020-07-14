@@ -2,13 +2,15 @@ from tkinter import *
 import os
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+import math
 
 window = Tk()
 window.geometry("390x415+700+100")
 window.resizable(0, 0)
 window.title("Calculator")
-photo = PhotoImage(file="Images/icon.png")
-window.iconphoto(False, photo)
+icon = PhotoImage(file="Images/icon.png")
+window.iconphoto(False, icon)
+imghist = PhotoImage(file="Images/history.png")
 
 # value that appears on the screen/display
 
@@ -18,19 +20,31 @@ value = StringVar()
 
 svalue = ""
 
-# themes
+# variables for radio buttons
+
 theme = IntVar()
 
-#         btnfg       btnbg     btneqlbg   btnacbg    historyfg    historybg displaybg   displayfg  hisframebg  hisframefg  windowbg
-#           0          1            2       3           4             5         6          7           8         9            10
-color = [["#FFFFFF", "#4a8fe4", "#3fd991", "RED",     "#4169E1",   "WHITE",  "WHITE",   "#4169E1", "#7ef9ff", "WHITE",     "#4a8fe4"],
-         ["BLACK",   "WHITE",   "#3b5998", "RED",      "BLACK",    "WHITE",   "WHITE",    "BLACK",   "WHITE", "BLACK",       "WHITE"],
-         ["WHITE",  "#1a3f4b",  "#39ff14", "RED",      "WHITE",   "BLACK",    "BLACK",    "WHITE",   "BLACK", "WHITE",         "BLACK"]]
+modes = IntVar()
+
+displayframe = Frame(window, width=390, height=700)
+btn_row1 = Frame(window, width=390, height=40)
+btn_row2 = Frame(window, width=390, height=40)
+btn_row3 = Frame(window, width=390, height=40)
+btn_row4 = Frame(window, width=390, height=40)
+btn_row5 = Frame(window, width=390, height=40)
+
+#         btnfg       btnbg     btneqlbg   btnacbg    historyfg    historybg    displaybg   displayfg  hisframebg  hisframefg  windowbg  btnoperationsbg
+#           0          1            2         3           4             5             6          7           8            9         10        11
+color = [
+    ["#ffffff", "#1f45fc", "#59e817", "RED", "#000000", "#e0ffff", "#e0ffff", "#1f45fc", "#1f45fc", "WHITE", "#000000",
+     "#165AA6"],
+    ["BLACK", "#e5e4e2", "#00DCE3", "RED", "BLACK", "WHITE", "WHITE", "BLACK", "WHITE", "BLACK", "WHITE", "#A6AAAA"],
+    ["#ffffff", "#000000", "#39ff14", "RED", "WHITE", "BLACK", "BLACK", "WHITE", "BLACK", "WHITE", "BLACK", "#000000"]]
 
 
 def mode():
     window.configure(menu=menubar, bg=color[theme.get()][10])
-    frame.configure(bg=color[theme.get()][8], fg=color[theme.get()][9])
+    historyframe.configure(bg=color[theme.get()][8], fg=color[theme.get()][9])
     history.configure(fg=color[theme.get()][4], bg=color[theme.get()][5])
 
     obj.display.configure(bg=color[theme.get()][6], fg=color[theme.get()][7])
@@ -39,10 +53,14 @@ def mode():
         i.configure(fg=color[theme.get()][0], bg=color[theme.get()][1])
 
     for i in obj.operators:
-        i.configure(fg=color[theme.get()][0], bg=color[theme.get()][1])
+        i.configure(fg=color[theme.get()][0], bg=color[theme.get()][11])
+
+    for i in obj.scifi:
+        i.configure(fg=color[theme.get()][0], bg=color[theme.get()][11])
 
     obj.btneql.configure(bg=color[theme.get()][2], fg=color[theme.get()][0])
     obj.btnclr.configure(bg=color[theme.get()][3], fg=color[theme.get()][0])
+
 
 # getting and setting values
 
@@ -55,18 +73,249 @@ def input(num, value):
 
 # ===============================================operations=========================================================
 
-def operate(value):
-    global svalue
+def fact():
+    try:
+        result = str(math.factorial(eval(obj.display.get())))
+        history.insert(END, obj.display.get() + " !  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def exp():
+    try:
+        result = str(math.exp(eval(obj.display.get())))
+        history.insert(END, "e**" + obj.display.get() + "  =" + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def sin():
     try:
 
-        result = str(eval(obj.display.get()))
+        result = str(math.sin(radians(eval(display.get()))))
+        history.insert(END, "sin" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+def sinh():
+    try:
+
+        result = str(math.sinh(radians(eval(display.get()))))
+        history.insert(END, "sinh" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def log():
+    try:
+
+        result = str(math.log10(eval(obj.display.get())))
+        history.insert(END, "log" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def cos():
+    try:
+        result = str(math.cos(radians(eval(obj.display.get()))))
+        history.insert(END, "cos" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+def cosh():
+    try:
+        result = str(math.cosh(radians(eval(obj.display.get()))))
+        history.insert(END, "cosh" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def per():
+    try:
+        result = str((eval(obj.display.get())) / 100)
+        history.insert(END, "cos" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+def mod():
+    try:
+        result = str(math.fabs(float(obj.display.get())))
+        history.insert(END, "|" + obj.display.get() + "|  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def tan():
+    try:
+        result = str(math.tan(radians(eval(obj.display.get()))))
+        history.insert(END, "tan" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+def tanh():
+    try:
+        result = str(math.tanh(radians(eval(obj.display.get()))))
+        history.insert(END, "tanh" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+def root():
+    try:
+        result = str(math.sqrt(eval(obj.display.get())))
+        history.insert(END, "\u221A" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+def pi():
+    try:
+        result = str(math.pi)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+
+index = 0
+
+def rad():
+    global index
+
+    if (index==0):
+
+        obj.btnrad.config(text="\u00B0")
+        try:
+            result = str(math.degrees(eval(obj.display.get())))
+            history.insert(END, obj.display.get() + "\u00B0  =  " + result)
+            value.set(result)
+
+        except ZeroDivisionError:
+            svalue = ""
+            value.set("Zero Error")
+        except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+            svalue = ""
+            messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+            value.set(svalue)
+
+    else:
+        obj.btnrad.config(text="\u33AD")
+        try:
+            result = str(math.radians(eval(obj.display.get())))
+            history.insert(END, obj.display.get() + "\u33AD  =  " + result)
+            value.set(result)
+
+        except ZeroDivisionError:
+            svalue = ""
+            value.set("Zero Error")
+        except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+            svalue = ""
+            messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+            value.set(svalue)
+
+    index = not index
+
+def operate(value):
+    global svalue
+
+    try:
+
+        result = str(eval(obj.display.get()[:-1].lstrip('0') + obj.display.get()[-1]))
         history.insert(END, obj.display.get() + "  =  " + result)
         value.set(result)
         svalue = ""
     except ZeroDivisionError:
         svalue = ""
         value.set("Zero Error")
-    except (SyntaxError, AttributeError, TypeError, IndexError):
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
         svalue = ""
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
@@ -146,19 +395,19 @@ def restart_program():
 
 # Frame for recent_operations
 
-frame = LabelFrame(window, text="Recent", font="Arial 12 bold", fg=color[theme.get()][9], bg=color[theme.get()][8])
+historyframe = LabelFrame(window, text="Recent", font="Arial 12 bold", fg=color[theme.get()][9],
+                          bg=color[theme.get()][8])
 
 # ScrollBar
 
-scrollx = Scrollbar(frame, orient=HORIZONTAL)
-scrolly = Scrollbar(frame, orient=VERTICAL)
+scrollx = Scrollbar(historyframe, orient=HORIZONTAL)
+scrolly = Scrollbar(historyframe, orient=VERTICAL)
 
 # Recent List
 
-history = Listbox(frame,
-                  height=4,
-                  font="Helvetica 11",
-                  width=46,
+history = Listbox(historyframe,
+                  font="Helvetica 15",
+                  height=3,
                   bg=color[theme.get()][5],
                   fg=color[theme.get()][4],
                   xscrollcommand=scrollx.set,
@@ -172,124 +421,325 @@ scrolly.config(command=history.yview)
 scrollx.pack(side=BOTTOM, fill=X)
 scrolly.pack(side=RIGHT, fill=Y)
 
-history.pack()
+history.pack(expand=True, fill=BOTH)
 
-frame.place(x=0, y=305)
+displayframe.pack(expand=True, fill=BOTH)
 
-"""=======================================================Menu bar================================================"""
+hist = IntVar()
 
-menubar = Menu(window)
 
-file = Menu(menubar, tearoff=0)
-file.add_command(label="New", command=restart_program)
-file.add_command(label="Save", command=lambda: save())
+def toggle():
+    if hist.get() == 1:
+        historyframe.pack(side=BOTTOM, expand=True, fill=BOTH)
+    elif hist.get() == 0:
+        historyframe.pack_forget()
 
-file.add_separator()
-
-file.add_command(label="Exit", command=on_Closing)
-
-menubar.add_cascade(label="File", menu=file)
-
-edit = Menu(menubar, tearoff=0)
-
-edit.add_command(label="Cut", accelerator="Ctrl+X", command=lambda: window.focus_get().event_generate('<<Cut>>'))
-edit.add_command(label="Copy", accelerator="Ctrl+C", command=lambda: window.focus_get().event_generate('<<Copy>>'))
-edit.add_command(label="Paste", accelerator="Ctrl+V", command=lambda: window.focus_get().event_generate('<<Paste>>'))
-edit.add_command(label="Delete List", command=lambda: history.delete(ANCHOR))
-
-menubar.add_cascade(label="Edit", menu=edit)
-
-view = Menu(menubar, tearoff=0)
-
-view.add_radiobutton(label="Default", variable=theme, value=0, command=mode)
-view.add_radiobutton(label="Light", variable=theme, value=1, command=mode)
-view.add_radiobutton(label="Dark", variable=theme, value=2, command=mode)
-
-menubar.add_cascade(label="View", menu=view)
-
-help = Menu(menubar, tearoff=0)
-help.add_command(label="About", command=lambda: about())
-menubar.add_cascade(label="Help", menu=help)
-
-window.configure(menu=menubar, bg=color[theme.get()][10])
 
 class Frame:
     # DisplayBar
-
-    display = Entry(window, bd=3, width=400, font=" Arial 30", justify=RIGHT,
+    btnhist = Checkbutton(displayframe, image=imghist, command=lambda: toggle(), variable=hist, bd=0,
+                          activebackground="#ffffff",
+                          width=40, bg="White", height=1, borderwidth=0, relief=FLAT)
+    display = Entry(displayframe, width=400, bd=0, font=" Arial 30", justify=RIGHT,
                     fg=color[theme.get()][7], bg=color[theme.get()][6],
                     textvariable=value)
     display.focus_set()
-    display.pack()
+    btnhist.pack(side=LEFT, expand=True, fill=BOTH)
+    display.pack(expand=True, fill=BOTH)
 
     # =====================================================Buttons=========================================================
 
     # Operation Buttons
 
-    btnadd = Button(window,
-                    text="+",
-                    font="Verdana 10 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
-                    highlightthickness=0,
-                    command=lambda: input("+", value))
+    # Brackets
 
-    btndiv = Button(window,
-                    text="\u00f7",
-                    font="Verdana 11 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
-                    highlightthickness=0,
-                    command=lambda: input("/", value))
+    btnbo = Button(btn_row1,
+                   text="(",
+                   font="Verdana 12 bold",
+                   fg=color[theme.get()][0], bg=color[theme.get()][11],
+                   relief="groove",
+                   width=1,
+                   bd=1,
+                   highlightthickness=0,
+                   command=lambda: input("(", value))
 
-    btnmul = Button(window,
-                    text="\u00d7",
-                    font="Verdana 10 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
-                    highlightthickness=0,
-                    command=lambda: input("*", value))
+    btnbc = Button(btn_row1, text=")",
+                   font="Verdana 12 bold",
+                   fg=color[theme.get()][0], bg=color[theme.get()][11],
+                   relief="groove",
+                   width=1,
+                   bd=1,
+                   highlightthickness=0,
+                   command=lambda: input(")", value))
 
-    btnsub = Button(window,
-                    text="-",
-                    font="Verdana 10 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
+    btnpwr = Button(btn_row1,
+                    text="x\u207f",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bd=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
                     highlightthickness=0,
-                    command=lambda: input("-", value))
+                    command=lambda: input("**", value))
 
-    btnsqr = Button(window,
-                    text="x\u00b2",
-                    font="Verdana 10 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
-                    highlightthickness=0,
-                    command=lambda: input("**2", value))
+    btnfact = Button(btn_row1,
+                     text="n!",
+                     font="Verdana 12 bold",
+                     width=1,
+                     bd=1,
+                     bg=color[theme.get()][11], fg=color[theme.get()][0],
+                     relief="groove",
+                     highlightthickness=0,
+                     command=lambda: fact())
 
     # All Clear And Backspace
-
-    btnclr = Button(window,
-                    text="AC",
-                    font="Verdana 10 bold",
-                    fg=color[theme.get()][0], bg=color[theme.get()][3],
-                    relief="flat",
-                    highlightthickness=0,
-                    command=lambda: clear())
-
-    btndlt = Button(window,
+    btndlt = Button(btn_row1,
                     text="\u232b",
-                    font="Arial_black 11 bold",
-                    bg=color[theme.get()][1], fg=color[theme.get()][0],
-                    relief="flat",
+                    font="Arial_black 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
                     highlightthickness=0,
                     command=lambda: delt(value))
 
+    btnclr = Button(btn_row1,
+                    text="AC",
+                    font="Verdana 12 bold",
+                    width=1,
+                    fg=color[theme.get()][0], bg=color[theme.get()][3],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: clear())
+
+    btnmod = Button(btn_row1,
+                    text="|x|",
+                    font="Verdana 12 bold",
+                    width=1,
+                    fg=color[theme.get()][0], bg=color[theme.get()][11],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: mod())
+
+    # Numbers
+    btn7 = Button(btn_row2,
+                  text="7",
+                  font="Verdana 12 bold",
+                  width=2,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(7, value))
+
+    btn8 = Button(btn_row2,
+                  text="8",
+                  font="Verdana 12 bold",
+                  width=2,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(8, value))
+
+    btn9 = Button(btn_row2,
+                  text="9",
+                  font="Verdana 12 bold",
+                  width=2,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(9, value))
+
+    btndiv = Button(btn_row2,
+                    text="\u00f7",
+                    font="Verdana 12 bold",
+                    width=2,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: input("/", value))
+    btnexp = Button(btn_row2,
+                    text="e",
+                    font="Verdana 12 bold",
+                    width=2,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: exp())
+    btnsin = Button(btn_row2,
+                    text="sin",
+                    font="Verdana 12 bold",
+                    width=2,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: sin())
+
+    btnsinh = Button(btn_row2,
+                     text="sinh",
+                     font="Verdana 12 bold",
+                     width=2,
+                     bg=color[theme.get()][11], fg=color[theme.get()][0],
+                     relief="groove",
+                     highlightthickness=0,
+                     command=lambda: sinh())
+
+    btn4 = Button(btn_row3,
+                  text="4",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(4, value))
+
+    btn5 = Button(btn_row3,
+                  text="5",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(5, value))
+
+    btn6 = Button(btn_row3,
+                  text="6",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(6, value))
+
+    btnmul = Button(btn_row3,
+                    text="\u00d7",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: input("*", value))
+    btnlog = Button(btn_row3,
+                    text="log",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: log())
+    btncos = Button(btn_row3,
+                    text="cos",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: cos())
+
+    btncosh = Button(btn_row3,
+                     text="cosh",
+                     font="Verdana 12 bold",
+                     width=1,
+                     bg=color[theme.get()][11], fg=color[theme.get()][0],
+                     relief="groove",
+                     highlightthickness=0,
+                     command=lambda: cosh())
+
+    btn1 = Button(btn_row4,
+                  text="1",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(1, value))
+
+    btn2 = Button(btn_row4,
+                  text="2",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(2, value))
+
+    btn3 = Button(btn_row4,
+                  text="3",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(3, value))
+
+    btnsub = Button(btn_row4,
+                    text="-",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: input("-", value))
+    btnper = Button(btn_row4,
+                    text="%",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: per())
+    btntan = Button(btn_row4,
+                    text="tan",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: tan())
+
+    btntanh = Button(btn_row4,
+                     text="tanh",
+                     font="Verdana 12 bold",
+                     width=1,
+                     bg=color[theme.get()][11], fg=color[theme.get()][0],
+                     relief="groove",
+                     highlightthickness=0,
+                     command=lambda: tanh())
+
+    # Float
+    btndot = Button(btn_row5,
+                    text=".",
+                    font="Verdana 12 bold",
+                    width=1,
+                    fg=color[theme.get()][0], bg=color[theme.get()][11],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: input(".", value))
+
+    btn0 = Button(btn_row5,
+                  text="0",
+                  font="Verdana 12 bold",
+                  width=1,
+                  bg=color[theme.get()][1],
+                  fg=color[theme.get()][0],
+                  relief="groove",
+                  highlightthickness=0,
+                  command=lambda: input(0, value))
+
     # Result
-    btneql = Button(window,
+    btneql = Button(btn_row5,
                     text="=",
-                    font="Verdana 10 bold",
+                    font="Verdana 12 bold",
+                    width=1,
                     bg=color[theme.get()][2], fg=color[theme.get()][0],
-                    relief="flat",
+                    relief="groove",
                     highlightthickness=0,
                     command=lambda: operate(value))
 
@@ -298,256 +748,126 @@ class Frame:
     window.bind("<KP_Enter>", enterkey)
     window.bind("<Return>", enterkey)
 
-    # Float
-    btndot = Button(window,
-                    text=".",
-                    font="Verdana 10 bold",
-                    fg=color[theme.get()][0], bg=color[theme.get()][1],
-                    relief="flat",
+    btnadd = Button(btn_row5,
+                    text="+",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
                     highlightthickness=0,
-                    command=lambda: input(".", value))
-
-    # Brackets
-
-    btnbo = Button(window,
-                   text="(",
-                   font="Verdana 10 bold",
-                   fg=color[theme.get()][0], bg=color[theme.get()][1],
-                   relief="flat",
+                    command=lambda: input("+", value))
+    btnroot = Button(btn_row5,
+                     text="\u221A",
+                     font="Verdana 12 bold",
+                     width=1,
+                     bg=color[theme.get()][11], fg=color[theme.get()][0],
+                     relief="groove",
+                     highlightthickness=0,
+                     command=lambda: root())
+    btnpi = Button(btn_row5,
+                   text="\u03C0",
+                   font="Verdana 12 bold",
+                   width=1,
+                   bg=color[theme.get()][11], fg=color[theme.get()][0],
+                   relief="groove",
                    highlightthickness=0,
-                   command=lambda: input("(", value))
+                   command=lambda: pi())
 
-    btnbc = Button(window, text=")",
-                   font="Verdana 10 bold",
-                   fg=color[theme.get()][0], bg=color[theme.get()][1],
-                   relief="flat",
-                   highlightthickness=0,
-                   command=lambda: input(")", value))
+    btnrad = Button(btn_row5,
+                    text="\u33AD",
+                    font="Verdana 12 bold",
+                    width=1,
+                    bg=color[theme.get()][11], fg=color[theme.get()][0],
+                    relief="groove",
+                    highlightthickness=0,
+                    command=lambda: rad())
 
-    # Numbers
-    btn7 = Button(window,
-                  text="7",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(7, value))
+    btnbo.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btnbc.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btnclr.pack(side=RIGHT, expand=True, fill=BOTH, ipadx=2)
+    btndlt.pack(side=RIGHT, expand=True, fill=BOTH, ipadx=2)
 
-    btn8 = Button(window,
-                  text="8",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(8, value))
+    btn7.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn8.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn9.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btndiv.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
-    btn9 = Button(window,
-                  text="9",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(9, value))
+    btn4.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn5.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn6.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btnmul.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
-    btn4 = Button(window,
-                  text="4",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(4, value))
+    btn1.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn2.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn3.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btnsub.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
-    btn5 = Button(window,
-                  text="5",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(5, value))
+    btndot.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btn0.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btneql.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
+    btnadd.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
-    btn6 = Button(window,
-                  text="6",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(6, value))
+    btn_row1.pack(expand=True, fill=BOTH)
+    btn_row2.pack(expand=True, fill=BOTH)
+    btn_row3.pack(expand=True, fill=BOTH)
+    btn_row4.pack(expand=True, fill=BOTH)
+    btn_row5.pack(expand=True, fill=BOTH)
 
-    btn1 = Button(window,
-                  text="1",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(1, value))
+    num_list = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0]
 
-    btn2 = Button(window,
-                  text="2",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(2, value))
+    operators = [btndiv, btndlt, btnbo, btnbc, btnadd, btnsub, btnmul, btndot]
 
-    btn3 = Button(window,
-                  text="3",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(3, value))
+    scifi = [btnpi, btnroot, btnpwr, btnper, btnlog, btnfact, btnexp, btntan, btnsin, btncos,btntanh, btnsinh, btncosh,btnmod, btnrad]
 
-    btn0 = Button(window,
-                  text="0",
-                  font="Verdana 10 bold",
-                  bg=color[theme.get()][1],
-                  fg=color[theme.get()][0],
-                  relief="flat",
-                  highlightthickness=0,
-                  command=lambda: input(0, value))
+    def standard(self):
+        window.geometry("390x415")
+        for i in obj.scifi:
+            i.forget()
 
-    # Button Formats, Position And Packing
-    btn1.pack()
-    btn2.pack()
-    btn3.pack()
-    btn4.pack()
-    btn5.pack()
-    btn6.pack()
-    btn7.pack()
-    btn8.pack()
-    btn9.pack()
-    btn0.pack()
-    btndot.pack()
-    btndiv.pack()
-    btneql.pack()
-    btndlt.pack()
-    btnbo.pack()
-    btnbc.pack()
-    btnclr.pack()
-    btnadd.pack()
-    btnsub.pack()
-    btnmul.pack()
-    btnsqr.pack()
+    def scientific(self):
+        window.geometry("535x390")
 
-    btnbo.place(bordermode=OUTSIDE,
-                height=40,
-                width=40,
-                x=10, y=60)
-
-    btnbc.place(bordermode=OUTSIDE,
-                height=40,
-                width=40,
-                x=55, y=60)
-
-    btnsqr.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=105, y=60)
-
-    btndlt.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=200, y=60)
-
-    btnclr.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=295, y=60)
-
-    btn7.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=10, y=110)
-
-    btn8.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=105, y=110)
-
-    btn9.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=200, y=110)
-
-    btndiv.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=295, y=110)
-
-    btn4.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=10, y=160)
-
-    btn5.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=105, y=160)
-
-    btn6.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=200, y=160)
-
-    btnmul.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=295, y=160)
-
-    btn1.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=10, y=210)
-
-    btn2.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=105, y=210)
-
-    btn3.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=200, y=210)
-
-    btnsub.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=295, y=210)
-
-    btndot.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=10, y=260)
-
-    btn0.place(bordermode=OUTSIDE,
-               height=40,
-               width=85,
-               x=105, y=260)
-
-    btneql.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=200, y=260)
-
-    btnadd.place(bordermode=OUTSIDE,
-                 height=40,
-                 width=85,
-                 x=295, y=260)
-    num_list = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0, btndot]
-
-    operators = [btndiv, btndlt, btnbo, btnbc, btnadd, btnsub, btnmul, btnsqr]
+        for i in obj.scifi:
+            i.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
 
 obj = Frame()
+
+"""=======================================================Menu bar================================================"""
+
+menubar = Menu(window)
+
+file = Menu(menubar, tearoff=0)
+file.add_command(label="New", command=restart_program)
+file.add_command(label="Save", command=lambda: save())
+file.add_separator()
+
+file.add_command(label="Exit", command=on_Closing)
+menubar.add_cascade(label="File", menu=file)
+
+edit = Menu(menubar, tearoff=0)
+edit.add_command(label="Cut", accelerator="Ctrl+X", command=lambda: window.focus_get().event_generate('<<Cut>>'))
+edit.add_command(label="Copy", accelerator="Ctrl+C", command=lambda: window.focus_get().event_generate('<<Copy>>'))
+edit.add_command(label="Paste", accelerator="Ctrl+V", command=lambda: window.focus_get().event_generate('<<Paste>>'))
+edit.add_command(label="Delete List", command=lambda: history.delete(ANCHOR))
+menubar.add_cascade(label="Edit", menu=edit)
+
+view = Menu(menubar, tearoff=0)
+view.add_radiobutton(label="Default", variable=theme, value=0, command=mode)
+view.add_radiobutton(label="Light", variable=theme, value=1, command=mode)
+view.add_radiobutton(label="Dark", variable=theme, value=2, command=mode)
+menubar.add_cascade(label="View", menu=view)
+
+mode = Menu(menubar, tearoff=0)
+mode.add_radiobutton(label="Standard", variable=modes, value=0, command=obj.standard)
+mode.add_radiobutton(label="Scientific", variable=modes, value=1, command=obj.scientific)
+menubar.add_cascade(label="Mode", menu=mode)
+
+help = Menu(menubar, tearoff=0)
+help.add_command(label="About", command=lambda: about())
+menubar.add_cascade(label="Help", menu=help)
+
+window.configure(menu=menubar, bg=color[theme.get()][10])
 
 # Close When Escape key is pressed
 
