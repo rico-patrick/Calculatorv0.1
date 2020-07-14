@@ -3,7 +3,6 @@ import os
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
 import math
-from playsound import playsound
 
 window = Tk()
 window.geometry("390x415+700+100")
