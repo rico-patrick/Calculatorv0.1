@@ -3,29 +3,27 @@ import os
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
 import math
+from playsound import playsound
 
 window = Tk()
 window.geometry("390x415+700+100")
 window.resizable(0, 0)
 window.title("Calculator")
+# Window Icon
 icon = PhotoImage(file="Images/icon.png")
 window.iconphoto(False, icon)
+# For history Switch
 imghist = PhotoImage(file="Images/history.png")
 
 # value that appears on the screen/display
-
 value = StringVar()
 
 # initial and final value that is executed
-
 svalue = ""
-
 # variables for radio buttons
-
 theme = IntVar()
-
 modes = IntVar()
-
+# Frame for buttons
 displayframe = Frame(window, width=390, height=700)
 btn_row1 = Frame(window, width=390, height=40)
 btn_row2 = Frame(window, width=390, height=40)
@@ -33,15 +31,16 @@ btn_row3 = Frame(window, width=390, height=40)
 btn_row4 = Frame(window, width=390, height=40)
 btn_row5 = Frame(window, width=390, height=40)
 
+
+"""=======================================================Theme========================================================="""
+
 #         btnfg       btnbg     btneqlbg   btnacbg    historyfg    historybg    displaybg   displayfg  hisframebg  hisframefg  windowbg  btnoperationsbg
 #           0          1            2         3           4             5             6          7           8            9         10        11
-color = [
-    ["#ffffff", "#1f45fc", "#59e817", "RED", "#000000", "#e0ffff", "#e0ffff", "#1f45fc", "#1f45fc", "WHITE", "#000000",
-     "#165AA6"],
-    ["BLACK", "#e5e4e2", "#00DCE3", "RED", "BLACK", "WHITE", "WHITE", "BLACK", "WHITE", "BLACK", "WHITE", "#A6AAAA"],
-    ["#ffffff", "#000000", "#39ff14", "RED", "WHITE", "BLACK", "BLACK", "WHITE", "BLACK", "WHITE", "BLACK", "#000000"]]
+color = [["#ffffff", "#1f45fc", "#59e817", "RED",    "#000000",    "#e0ffff",   "#e0ffff", "#1f45fc", "#1f45fc", "WHITE", "#000000", "#165AA6"],
+        ["BLACK",   "#e5e4e2",  "#3b5998", "RED",     "BLACK",      "WHITE",     "WHITE", "BLACK", "WHITE", "BLACK", "WHITE", "LIGHT GREY"],
+        ["#ffffff", "#000000", "#39ff14",  "RED",     "WHITE",      "BLACK",     "BLACK", "WHITE", "BLACK", "WHITE", "BLACK", "#000000"]]
 
-
+# modes  :default, light, dark
 def mode():
     window.configure(menu=menubar, bg=color[theme.get()][10])
     historyframe.configure(bg=color[theme.get()][8], fg=color[theme.get()][9])
@@ -59,7 +58,7 @@ def mode():
         i.configure(fg=color[theme.get()][0], bg=color[theme.get()][11])
 
     obj.btneql.configure(bg=color[theme.get()][2], fg=color[theme.get()][0])
-    obj.btnclr.configure(bg=color[theme.get()][3], fg=color[theme.get()][0])
+    obj.btnclr.configure(bg=color[theme.get()][3], fg="#ffffff")
 
 
 # getting and setting values
@@ -72,6 +71,7 @@ def input(num, value):
 
 
 # ===============================================operations=========================================================
+# Factorial
 
 def fact():
     try:
@@ -87,7 +87,7 @@ def fact():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
-
+# Exponential
 def exp():
     try:
         result = str(math.exp(eval(obj.display.get())))
@@ -102,38 +102,7 @@ def exp():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
-
-def sin():
-    try:
-
-        result = str(math.sin(radians(eval(display.get()))))
-        history.insert(END, "sin" + obj.display.get() + "  =  " + result)
-        value.set(result)
-
-    except ZeroDivisionError:
-        svalue = ""
-        value.set("Zero Error")
-    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
-        svalue = ""
-        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
-        value.set(svalue)
-
-def sinh():
-    try:
-
-        result = str(math.sinh(radians(eval(display.get()))))
-        history.insert(END, "sinh" + obj.display.get() + "  =  " + result)
-        value.set(result)
-
-    except ZeroDivisionError:
-        svalue = ""
-        value.set("Zero Error")
-    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
-        svalue = ""
-        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
-        value.set(svalue)
-
-
+# logarithm
 def log():
     try:
 
@@ -149,10 +118,49 @@ def log():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
+"""==============================================Trignometric And Hyperbolic Functions==============================="""
+def sin():
+    try:
+
+        result = str(math.sin((float(obj.display.get()))))
+        history.insert(END, "sin" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
+        value.set(svalue)
+
+def sinh():
+    try:
+
+        result = str(math.sinh(float(obj.display.get())))
+        history.insert(END, "sinh" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
+        value.set(svalue)
 
 def cos():
     try:
-        result = str(math.cos(radians(eval(obj.display.get()))))
+        result = str(math.cos((float(obj.display.get()))))
         history.insert(END, "cos" + obj.display.get() + "  =  " + result)
         value.set(result)
 
@@ -164,9 +172,14 @@ def cos():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
+        value.set(svalue)
+
 def cosh():
     try:
-        result = str(math.cosh(radians(eval(obj.display.get()))))
+        result = str(math.cosh((float(obj.display.get()))))
         history.insert(END, "cosh" + obj.display.get() + "  =  " + result)
         value.set(result)
 
@@ -176,6 +189,49 @@ def cosh():
     except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
         svalue = ""
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
+        value.set(svalue)
+
+def tan():
+    try:
+        result = str(math.tan(float(obj.display.get())))
+        history.insert(END, "tan" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
+        value.set(svalue)
+
+def tanh():
+    try:
+        result = str(math.tanh(float(obj.display.get())))
+        history.insert(END, "tanh" + obj.display.get() + "  =  " + result)
+        value.set(result)
+
+    except ZeroDivisionError:
+        svalue = ""
+        value.set("Zero Error")
+    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
+        svalue = ""
+        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
+        value.set(svalue)
+
+    except OverflowError:
+        svalue = ""
+        messagebox.showerror("Limit Exceeded", "Please Try Again")
         value.set(svalue)
 
 
@@ -208,34 +264,7 @@ def mod():
         value.set(svalue)
 
 
-def tan():
-    try:
-        result = str(math.tan(radians(eval(obj.display.get()))))
-        history.insert(END, "tan" + obj.display.get() + "  =  " + result)
-        value.set(result)
-
-    except ZeroDivisionError:
-        svalue = ""
-        value.set("Zero Error")
-    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
-        svalue = ""
-        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
-        value.set(svalue)
-
-def tanh():
-    try:
-        result = str(math.tanh(radians(eval(obj.display.get()))))
-        history.insert(END, "tanh" + obj.display.get() + "  =  " + result)
-        value.set(result)
-
-    except ZeroDivisionError:
-        svalue = ""
-        value.set("Zero Error")
-    except (SyntaxError, NameError, AttributeError, ValueError, TypeError, IndexError):
-        svalue = ""
-        messagebox.showerror("Error Occupied", "Please Try a Valid Input")
-        value.set(svalue)
-
+# Square Root
 def root():
     try:
         result = str(math.sqrt(eval(obj.display.get())))
@@ -250,7 +279,7 @@ def root():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
-
+# Pi
 def pi():
     try:
         result = str(math.pi)
@@ -264,9 +293,9 @@ def pi():
         messagebox.showerror("Error Occupied", "Please Try a Valid Input")
         value.set(svalue)
 
+# Rad and Degree
 
 index = 0
-
 def rad():
     global index
 
@@ -386,14 +415,14 @@ def save():
     file.close()
 
 
-# Restarts the current program
+# Restarts the current program when new is clicked
 
 def restart_program():
     python = sys.executable
     os.execl(python, python, *sys.argv)
 
 
-# Frame for recent_operations
+# Frame for Recent List
 
 historyframe = LabelFrame(window, text="Recent", font="Arial 12 bold", fg=color[theme.get()][9],
                           bg=color[theme.get()][8])
@@ -425,8 +454,9 @@ history.pack(expand=True, fill=BOTH)
 
 displayframe.pack(expand=True, fill=BOTH)
 
-hist = IntVar()
+# Function for Recent List  Switch
 
+hist = IntVar()
 
 def toggle():
     if hist.get() == 1:
@@ -436,7 +466,8 @@ def toggle():
 
 
 class Frame:
-    # DisplayBar
+    # History Switch and DisplayBar
+
     btnhist = Checkbutton(displayframe, image=imghist, command=lambda: toggle(), variable=hist, bd=0,
                           activebackground="#ffffff",
                           width=40, bg="White", height=1, borderwidth=0, relief=FLAT)
@@ -448,10 +479,6 @@ class Frame:
     display.pack(expand=True, fill=BOTH)
 
     # =====================================================Buttons=========================================================
-
-    # Operation Buttons
-
-    # Brackets
 
     btnbo = Button(btn_row1,
                    text="(",
@@ -520,7 +547,6 @@ class Frame:
                     highlightthickness=0,
                     command=lambda: mod())
 
-    # Numbers
     btn7 = Button(btn_row2,
                   text="7",
                   font="Verdana 12 bold",
@@ -825,14 +851,13 @@ class Frame:
             i.forget()
 
     def scientific(self):
-        window.geometry("535x390")
+        window.geometry("600x390")
 
         for i in obj.scifi:
             i.pack(side=LEFT, expand=True, fill=BOTH, ipadx=2)
 
 
 obj = Frame()
-
 """=======================================================Menu bar================================================"""
 
 menubar = Menu(window)
@@ -872,5 +897,11 @@ window.configure(menu=menubar, bg=color[theme.get()][10])
 # Close When Escape key is pressed
 
 window.bind("<Escape>", escapekey)
+
+# To make the calculator on top of all the windows
+window.lift()
+window.attributes('-topmost', True)
+
+#window.after_idle(window.attributes, '-topmost', False) #Can be used to disable it after being idle
 
 window.mainloop()
