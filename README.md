@@ -1,4 +1,4 @@
-# Project Title
+# Calculator
 "Anyone can code, If there is a passion"
 
 
@@ -40,17 +40,17 @@ Then run ‘python yourfilename.py’.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please watch [Contributting on Git](https://www.youtube.com/watch?v=w5JP-sjkWD0&list=PLY-ecO2csVHdLhAO6TERaMJXP8aqyWVt-&index=6) for details on code of conduct, and the process for submitting pull requests to us.
 
-If Calculator is not working properly, please file a report in the [Feedback Hub](https://insider.windows.com/en-us/fb/?contextid=130).
+If Calculator is not working properly, please write a report to [ricoedison@gmail.com](https://mail.google.com/mail/).
 We also welcome [issues submitted on GitHub](https://github.com/rico-patrick/Calculatorv0.1/issues).
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/rico-patrick/Calculatorv0.1/tags). 
+For the versions available, see the [tags on this repository](https://github.com/rico-patrick/Calculatorv0.1/tags). 
 
 ## Authors
 
-* **Rico** - *Initial work* - [PurpleBooth](https://github.com/rico-patrick)
+* **Rico** - *Initial work* - [Rico](https://github.com/rico-patrick)
 
 See also the list of [contributors](https://github.com/rico-patrick/Calculatorv0.1/contributors) who participated in this project.
 
