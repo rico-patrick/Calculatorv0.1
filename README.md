@@ -42,7 +42,7 @@ Then run ‘python yourfilename.py’.
 
 Please watch [Contributting on Git](https://www.youtube.com/watch?v=w5JP-sjkWD0&list=PLY-ecO2csVHdLhAO6TERaMJXP8aqyWVt-&index=6) for details on code of conduct, and the process for submitting pull requests to us.
 
-If Calculator is not working properly, please write a report to [ricoedison@gmail.com](https://mail.google.com/mail/).
+If Calculator is not working properly, please write a report to [me](ricopatrick.tk) or mail me  [ricoedison@gmail.com](https://mail.google.com/mail/).
 We also welcome [issues submitted on GitHub](https://github.com/rico-patrick/Calculatorv0.1/issues).
 ## Versioning
 
