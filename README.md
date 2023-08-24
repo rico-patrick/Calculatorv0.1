@@ -1,7 +1,4 @@
 # Calculator
-"Anyone can code, If there is a passion"
-
-
 This is a simple Calculator written in Python and is developed in Linyx Ubuntu 20.04
 The app provides standard, scientific.
 
