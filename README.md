@@ -1,6 +1,6 @@
 # Calculator
 This is a simple Calculator written in Python and is developed in Linyx Ubuntu 20.04
-The app provides standard, scientific.
+The app provides standard, scientific calculations.
 
 ![Calculator Screenshot](Images/Screenshot1.png)
 ## Features
@@ -57,7 +57,5 @@ This project is an open source.....
 
 ## Acknowledgments
 
-* A big Thanks to [Crossroads Team](https://www.youtube.com/c/Crossroadstalk/featured). Because of them this project is accomplished.
-* Thankyou [Nikhil Kilivayil](https://in.linkedin.com/in/nikhilkilivayil) Sir for supporting us.....
-
+* A big Thanks to [Crossroads Team](https://www.youtube.com/c/Crossroadstalk/featured). Because of them, this project was accomplished.
 
